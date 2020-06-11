@@ -24,6 +24,10 @@ class _ImageInputState extends State<ImageInput> {
       imageQuality: 9,
     );
 
+    if (img == null) {
+      return;
+    }
+
     setState(() {
       _storedImage = File(img.path);
     });

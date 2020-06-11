@@ -19,27 +19,40 @@ class SpaceListScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Consumer<MapSpaces>(
-        builder: (BuildContext context, MapSpaces mapSpaces, Widget child) =>
-            mapSpaces.mapItems.length <= 0
-                ? child
-                : ListView.builder(
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage:
-                              FileImage(mapSpaces.mapItems[index].img),
+      body: FutureBuilder(
+        future:
+            Provider.of<MapSpaces>(context, listen: false).fetchandSetSpace(),
+        builder: (context, snapShot) {
+          if (snapShot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return Consumer<MapSpaces>(
+              builder: (BuildContext context, MapSpaces mapSpaces,
+                      Widget child) =>
+                  mapSpaces.mapItems.length <= 0
+                      ? child
+                      : ListView.builder(
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage:
+                                    FileImage(mapSpaces.mapItems[index].img),
+                              ),
+                              title: Text(
+                                mapSpaces.mapItems[index].title,
+                              ),
+                            );
+                          },
+                          itemCount: mapSpaces.mapItems.length,
                         ),
-                        title: Text(
-                          mapSpaces.mapItems[index].title,
-                        ),
-                      );
-                    },
-                    itemCount: mapSpaces.mapItems.length,
-                  ),
-        child: Center(
-          child: const Text("There are no map spaces."),
-        ),
+              child: Center(
+                child: const Text("There are no map spaces."),
+              ),
+            );
+          }
+        },
       ),
     );
   }

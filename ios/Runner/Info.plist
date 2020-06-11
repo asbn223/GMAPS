@@ -26,6 +26,10 @@
 	<string>LaunchScreen</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow Camera for this Application!</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>Allow Location for this Application!</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Allow Location for this Application!</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
