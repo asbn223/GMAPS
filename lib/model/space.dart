@@ -6,7 +6,7 @@ class SpaceLocation {
   final double latitude, longitude;
   final String address;
 
-  SpaceLocation({
+  const SpaceLocation({
     @required this.latitude,
     @required this.longitude,
     this.address,

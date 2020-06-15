@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gmaps/helper/location_helper.dart';
+import 'package:gmaps/screens/map_screen.dart';
 import 'package:location/location.dart';
 
 class SpaceInput extends StatefulWidget {
@@ -11,8 +13,20 @@ class _SpaceInputState extends State<SpaceInput> {
 
   Future<void> _getUserLocation() async {
     final locData = await Location().getLocation();
-    print(locData.latitude);
-    print(locData.latitude);
+    final staticMapImageUrl = LocationHelper.getLocationPreviewImg(
+        locData.latitude, locData.longitude);
+    setState(() {
+      _previewImageUrl = staticMapImageUrl;
+    });
+  }
+
+  Future<void> selectYourLocation() async {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+          builder: (context) => MapScreen(
+                isSelecting: true,
+              )),
+    );
   }
 
   @override
