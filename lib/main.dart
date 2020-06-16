@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gmaps/provider/map_spaces.dart';
 import 'package:gmaps/screens/add_space_screen.dart';
+import 'package:gmaps/screens/space_detail_screen.dart';
 import 'package:gmaps/screens/space_list_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         home: SpaceListScreen(),
         routes: {
           AddSpaceScreen.routeName: (context) => AddSpaceScreen(),
+          SpaceDetailScreen.routeName: (context) => SpaceDetailScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),

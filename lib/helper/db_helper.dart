@@ -9,7 +9,7 @@ class DBHelper {
       path.join(dbPath, "spaces.db"),
       onCreate: (db, version) {
         return db.execute(
-          'CREATE TABLE user_spaces(id TEXT PRIMARY KEY, title Text, img Text)',
+          'CREATE TABLE user_spaces(id TEXT PRIMARY KEY, title Text, img Text, loc_lat REAL, loc_long REAL, address TEXT)',
         );
       },
       version: 1,

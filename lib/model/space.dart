@@ -15,7 +15,7 @@ class SpaceLocation {
 
 class Space {
   final String id, title;
-  final location;
+  final SpaceLocation location;
   final File img;
 
   Space({

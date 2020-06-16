@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gmaps/model/space.dart';
 import 'package:gmaps/provider/map_spaces.dart';
 import 'package:gmaps/widget/image_input.dart';
 import 'package:gmaps/widget/space_input.dart';
@@ -15,18 +16,23 @@ class AddSpaceScreen extends StatefulWidget {
 class _AddSpaceScreenState extends State<AddSpaceScreen> {
   File _pickedImg;
   TextEditingController _titleController = TextEditingController();
+  SpaceLocation _selectedLocation;
 
   void _saveSpace() {
     if (_titleController.text.isEmpty || _pickedImg == null) {
       return;
     }
     Provider.of<MapSpaces>(context, listen: false)
-        .addSpace(_titleController.text, _pickedImg);
+        .addSpace(_titleController.text, _pickedImg, _selectedLocation);
     Navigator.pop(context);
   }
 
   void _selectedImge(File pickedImg) {
     _pickedImg = pickedImg;
+  }
+
+  void _selectedSpace(double lat, double long) {
+    _selectedLocation = SpaceLocation(latitude: lat, longitude: long);
   }
 
   @override
@@ -60,7 +66,9 @@ class _AddSpaceScreenState extends State<AddSpaceScreen> {
                     SizedBox(
                       height: 10,
                     ),
-                    SpaceInput(),
+                    SpaceInput(
+                      onSelectSpace: _selectedSpace,
+                    ),
                   ],
                 ),
               ),

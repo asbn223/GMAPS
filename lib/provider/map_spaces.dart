@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gmaps/helper/db_helper.dart';
+import 'package:gmaps/helper/location_helper.dart';
 import 'package:gmaps/model/space.dart';
 
 class MapSpaces with ChangeNotifier {
@@ -11,12 +12,21 @@ class MapSpaces with ChangeNotifier {
     return [..._mapItems];
   }
 
-  void addSpace(String title, File pickedImg) {
+  Future<void> addSpace(
+      String title, File pickedImg, SpaceLocation selectedLocation) async {
+    final address = await LocationHelper.getSpaceAddress(
+        selectedLocation.latitude, selectedLocation.longitude);
+    print(address);
+    final updatedLocation = SpaceLocation(
+      latitude: selectedLocation.latitude,
+      longitude: selectedLocation.longitude,
+      address: address,
+    );
     final newSpace = Space(
       id: DateTime.now().toString(),
       title: title,
       img: pickedImg,
-      location: null,
+      location: updatedLocation,
     );
     _mapItems.add(newSpace);
     notifyListeners();
@@ -24,6 +34,9 @@ class MapSpaces with ChangeNotifier {
       'id': newSpace.id,
       'title': newSpace.title,
       'img': newSpace.img.path,
+      'loc_lat': newSpace.location.latitude,
+      'loc_long': newSpace.location.longitude,
+      'address': newSpace.location.address,
     });
   }
 
@@ -35,9 +48,18 @@ class MapSpaces with ChangeNotifier {
               id: item['id'],
               title: item['title'],
               img: File(item['img']),
-              location: null,
+              location: SpaceLocation(
+                latitude: item['loc_lat'],
+                longitude: item['loc_long'],
+                address: item['address'],
+              ),
             ))
         .toList();
     notifyListeners();
+  }
+
+  //Find by Id
+  Space findById(String id) {
+    return _mapItems.firstWhere((space) => space.id == id);
   }
 }
